@@ -16,12 +16,15 @@ document.addEventListener('DOMContentLoaded', function(){
     // connect with WebSocket
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
-    // When connected, configure buttons
+    // When connected, load channels and configure the 'create channel' form
     socket.on('connect', () => {
+
+        socket.emit('load_channels');
 
         document.querySelector('#create_channel').onsubmit = () => {
             const name = document.querySelector('#new_channel').value; 
             socket.emit('create_channel', {'new_channel': name});
+            document.querySelector('#new_channel').value = '';
             return false; 
         };
   
@@ -29,22 +32,14 @@ document.addEventListener('DOMContentLoaded', function(){
 
     socket.on('channel', data => {
         const li = document.createElement('li');
-        li.innerHTML = `New Channel: ${data.channel}`;
+        li.innerHTML = `${data.channel}`;
         document.querySelector('#channels').append(li);
     });
 
-
-});
-
-
-
-socket.on('connect', () => {
-
-    // Each button should emit a "submit vote" event
-    document.querySelectorAll('button').forEach(button => {
-        button.onclick = () => {
-            const selection = button.dataset.vote;
-            socket.emit('submit vote', {'selection': selection});
-        };
+    socket.on('channel_list', data => {
+        const channel_template = Handlebars.compile(document.querySelector('#load_channels').innerHTML); 
+        const channel_content = channel_template({"channels" : data.channels});    
+        document.querySelector('#channels').innerHTML += channel_content;
     });
+
 });
