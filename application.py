@@ -2,13 +2,14 @@ import os
 import requests
 
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, join_room, leave_room
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
 channels = []
+current_channel = None
 
 @app.route("/")
 def index():
@@ -33,3 +34,13 @@ def channel(data):
 
 
 
+
+@socketio.on('join')
+def on_join(data):
+    global current_channel
+    if current_channel:
+        leave_room(current_channel)
+    username = data['username']
+    current_channel = data['channel']
+    join_room(current_channel)
+    emit("message", {"message" : f'{username} has entered {current_channel}' }, room=current_channel)
