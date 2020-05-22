@@ -65,18 +65,16 @@ document.addEventListener('DOMContentLoaded', function(){
 
     //after user joins channels, load all the messages 
     socket.on('all messages', data => {
-        messages = data.messages 
-        messages = JSON.parse(messages)
-        if (messages.length < 1 || messages == undefined)
+        if (data.messages < 1 || data.messages == undefined)
         {
-            document.querySelector('#messages').innerHTML += 'error transmitting message from server'
-
+            document.querySelector('#messages').innerHTML = 'error transmitting message from server';
         }
         else
         {
+            document.querySelector('#messages').innerHTML += 'message recieved';
             const messages_template = Handlebars.compile(document.querySelector('#load_messages').innerHTML); 
-            const messages_content = messages_template({"messages" : messages});    
-            document.querySelector('#messages').innerHTML = messages_content;
+            const messages_content = messages_template({"messages" : data.messages });    
+            document.querySelector('#messages').innerHTML += messages_content;
         }
 
     });

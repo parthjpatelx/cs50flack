@@ -31,25 +31,24 @@ def channel(data):
 
 @socketio.on('join')
 def on_join(data):
-    current_channel = data['channel']
+    new_channel = data['channel']
     user = data['username']
-    #leave previous room and join current room in socket.io
     success = False 
 
     if data['previous_channel']:
         previous_channel = data['previous_channel']
         leave_room(previous_channel)
-    if join_room(current_channel):
+    if join_room(new_channel):
         success = True 
 
     #upon joining the room, load all the messages in that chat.
     for channel in channels: 
-        if channel.name == current_channel:
+        if channel.name == new_channel:
             channel.add_message(Message(user = user, text = f"{user} has joined {channel.name}" ))
             channel.serialize()
             messages = channel.messages_serialized
             break
-        emit('all messages', {'messages': messages, 'success': success}, room=current_channel)
+    emit('all messages', {'messages': messages, 'success': success}, room=new_channel)
 
 
 @socketio.on('message')
