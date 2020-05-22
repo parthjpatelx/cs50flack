@@ -26,7 +26,8 @@ def channel(data):
     for channel in channels: 
         channels_serialized.append(channel.name)
     #TOODO: add code to ensure that we don't have channels with duplicate names.
-    emit("channel_list", {"channels": channels_serialized}, broadcast=True)
+    if channels_serialized: 
+        emit("channel_list", {"channels": channels_serialized}, broadcast=True)
 
 
 @socketio.on('join')
@@ -47,8 +48,9 @@ def on_join(data):
             channel.add_message(Message(user = user, text = f"{user} has joined {channel.name}" ))
             channel.serialize()
             messages = channel.messages_serialized
+            count = len(messages)
+            emit('all messages', {'messages': messages, 'success': success, 'count' : count}, room=new_channel)
             break
-    emit('all messages', {'messages': messages, 'success': success}, room=new_channel)
 
 
 @socketio.on('message')

@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function(){
         }
         else
         {
-            document.querySelector('#messages').innerHTML += 'message recieved';
+            document.querySelector('#messages').innerHTML += data.count
             const messages_template = Handlebars.compile(document.querySelector('#load_messages').innerHTML); 
             const messages_content = messages_template({"messages" : data.messages });    
             document.querySelector('#messages').innerHTML += messages_content;
