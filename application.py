@@ -18,6 +18,8 @@ channels_serialized = ['general']
 #add test messages to the general channel. 
 general.add_message(Message(user = 'test', text = "message 1"))
 general.add_message(Message(user = 'test2', text = "message 2"))
+general.add_message(Message(user = 'test3', text = "message 3"))
+
 
 @app.route("/")
 def index():
@@ -27,10 +29,9 @@ def index():
 def channel(channel):
     for room in channels: 
         if room.name == channel:
-            room.serialize()
-            messages = room.messages_serialized
+            messages = room.serialize()
             break
-    return jsonify(f"{messages}")
+    return jsonify(messages)
 
     
 # @socketio.on("channels")

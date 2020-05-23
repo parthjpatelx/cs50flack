@@ -10,13 +10,13 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
 
-        <script id="load_messages" type="text/template">
+        <script id="messages_template" type="text/template">
             {% raw -%}
-            {{#each messages}}
-            <li>                  
-                <div class = 'message'> Message: {{ this.text }} </div>
-            </li>
-            {{/each}}  
+            <ul>
+                {{#each messages}}
+                    <li>{{ this.user }} said {{ this.text }} </li>
+                {{/each}} 
+            </ul>
             {%- endraw %}                
         </script>
 
