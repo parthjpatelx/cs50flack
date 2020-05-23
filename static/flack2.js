@@ -38,6 +38,22 @@ document.addEventListener('DOMContentLoaded', function(){
                 channel = link.dataset.channel;
                 socket.emit('join', {'channel' : channel, 'previous': localStorage.getItem('channel')});
                 localStorage.setItem('channel', channel);
+
+                //send ajax request to get a list of messages 
+                const request = new XMLHttpRequest();
+                request.open('POST', '/channel');
+
+                request.onload = () => {
+                    // Extract JSON data from request
+                    const data = JSON.parse(request.responseText);
+
+                    // Update the messages div
+                    document.querySelector('#messages').innerHTML = data;
+                }
+
+                // Send request
+                request.send();
+                return false;
             }
         });
 
@@ -46,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function(){
             const message = document.querySelector('#message').value; 
             socket.emit('message', {"username": username_local, "channel" : current_channel, "message" : message});
         };
-
 
     });
 

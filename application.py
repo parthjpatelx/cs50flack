@@ -18,6 +18,10 @@ channels_serialized = ['general']
 def index():
     return render_template('index.html', channels = channels_serialized)
 
+@app.route("/channel", methods=["POST"])
+def channel():
+    return jsonify('hello')
+    
 # @socketio.on("channels")
 # def channel(data):
 #     if data['new_channel']:
