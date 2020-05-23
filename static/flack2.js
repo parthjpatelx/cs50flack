@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
                 //send ajax request to get a list of messages 
                 const request = new XMLHttpRequest();
-                request.open('POST', '/channel');
+                request.open('POST', `/${channel}`);
 
                 request.onload = () => {
                     // Extract JSON data from request

@@ -11,16 +11,27 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
 #global var, array of channel classes. Can we convert this into a set?
-channels = [Channel(name = 'general')]
+general = Channel(name = 'general')
+channels = [general]
 channels_serialized = ['general']
+
+#add test messages to the general channel. 
+general.add_message(Message(user = 'test', text = "message 1"))
+general.add_message(Message(user = 'test2', text = "message 2"))
 
 @app.route("/")
 def index():
     return render_template('index.html', channels = channels_serialized)
 
-@app.route("/channel", methods=["POST"])
-def channel():
-    return jsonify('hello')
+@app.route("/<channel>", methods=["POST"])
+def channel(channel):
+    for room in channels: 
+        if room.name == channel:
+            room.serialize()
+            messages = room.messages_serialized
+            break
+    return jsonify(f"{messages}")
+
     
 # @socketio.on("channels")
 # def channel(data):
