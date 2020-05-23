@@ -12,6 +12,7 @@ socketio = SocketIO(app)
 
 #global var, array of channel classes. Can we convert this into a set?
 channels = [Channel(name = 'general')]
+channels_serialized = ['general']
 
 @app.route("/")
 def index():
@@ -22,12 +23,9 @@ def channel(data):
     if data['new_channel']:
         new_channel = data['new_channel']
         channels.append(Channel(name = new_channel))
-    channels_serialized = []
-    for channel in channels: 
-        channels_serialized.append(channel.name)
+        channels_serialized.append(data['new_channel'])
     #TOODO: add code to ensure that we don't have channels with duplicate names.
-    if channels_serialized: 
-        emit("channel_list", {"channels": channels_serialized}, broadcast=True)
+    emit("channel_list", {"channels": channels_serialized}, broadcast=True)
 
 
 @socketio.on('join')
@@ -45,7 +43,7 @@ def on_join(data):
     #upon joining the room, load all the messages in that chat.
     for channel in channels: 
         if channel.name == new_channel:
-            channel.add_message(Message(user = user, text = f"{user} has joined {channel.name}" ))
+            # channel.add_message(Message(user = user, text = f"{user} has joined {channel.name}" ))
             channel.serialize()
             messages = channel.messages_serialized
             count = len(messages)
@@ -62,7 +60,3 @@ def message(data):
             channel.add_message(Message(user = data['username'], text = data['message']))
             emit("send_message", {"sent_message" : data['message']})
             break
-
-
-
-

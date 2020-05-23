@@ -4,6 +4,7 @@ class Channel:
         self.name = name
         self.messages = []
         self.messages_serialized = []
+        self.name_serialized = []
 
         self.id = Channel.counter
         Channel.counter += 1
@@ -14,6 +15,9 @@ class Channel:
     def serialize(self):
         for message in self.messages:
             self.messages_serialized.append({"text" : message.text, "user": message.user})
+    
+    def serialize_name(self):
+        self.name_serialized.append({"name": self.name})
 
 
 class Message:

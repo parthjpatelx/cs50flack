@@ -56,9 +56,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
     //listen for when socket returns a channel list.
     socket.on('channel_list', data => {
-        const channel_template = Handlebars.compile(document.querySelector('#load_channels').innerHTML); 
-        const channel_content = channel_template({"channels" : data.channels});    
-        document.querySelector('#channels').innerHTML = channel_content;
+        if (data.channels < 1 || data.channels == undefined)
+        {
+            document.querySelector('#channels').innerHTML = 'error transmitting message from server';
+        }
+        else
+        {
+            // document.querySelector('#channels').innerHTML += data.channels;
+            const channel_template = Handlebars.compile(document.querySelector('#load_channels').innerHTML); 
+            const channel_content = channel_template({"channels" : data.channels});    
+            document.querySelector('#channels').innerHTML = channel_content;
+        }
     });
 
     //add a new message in a given channel.
@@ -72,14 +80,14 @@ document.addEventListener('DOMContentLoaded', function(){
     socket.on('all messages', data => {
         if (data.messages < 1 || data.messages == undefined)
         {
-            document.querySelector('#messages').innerHTML = 'error transmitting message from server';
+            document.querySelector('#messages').innerHTML = 'No messages in this channel!';
         }
         else
         {
-            document.querySelector('#messages').innerHTML += data.count
+            // document.querySelector('#messages').innerHTML += data.count
             const messages_template = Handlebars.compile(document.querySelector('#load_messages').innerHTML); 
             const messages_content = messages_template({"messages" : data.messages });    
-            document.querySelector('#messages').innerHTML += messages_content;
+            document.querySelector('#messages').innerHTML = messages_content;
         }
 
     });

@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', function(){
+    get_username();
+    WebSocket();
+});
 
+function get_username(){
     //get display name of user
     if (!localStorage.getItem('username')){
         var user = prompt("Please enter a display name");
@@ -11,8 +15,10 @@ document.addEventListener('DOMContentLoaded', function(){
     const template = Handlebars.compile("Welcome {{ user }}!");
     const content = template({"user" : username_local});
     document.querySelector('#greeting').innerHTML += content;
+};
 
 
+function WebSocket(){
     // connect with WebSocket
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
@@ -78,5 +84,4 @@ document.addEventListener('DOMContentLoaded', function(){
         }
 
     });
-
-});
+};

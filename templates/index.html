@@ -14,7 +14,7 @@
             {% raw -%}
             {{#each channels}}
             <li>                  
-                <a href = '#' data-channel = {{ this.name }} class = 'channel'> {{ this.name }} </a>
+                <a href = '#' class = 'channel' data-channel = {{ this }} > Channnel: {{ this }} </a>
             </li>
             {{/each}}  
             {%- endraw %}                
