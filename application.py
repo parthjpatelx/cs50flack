@@ -16,39 +16,43 @@ channels_serialized = ['general']
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('index.html', channels = channels_serialized)
 
-@socketio.on("channels")
-def channel(data):
-    if data['new_channel']:
-        new_channel = data['new_channel']
-        channels.append(Channel(name = new_channel))
-        channels_serialized.append(data['new_channel'])
-    #TOODO: add code to ensure that we don't have channels with duplicate names.
-    emit("channel_list", {"channels": channels_serialized}, broadcast=True)
+# @socketio.on("channels")
+# def channel(data):
+#     if data['new_channel']:
+#         new_channel = data['new_channel']
+#         channels.append(Channel(name = new_channel))
+#         channels_serialized.append(data['new_channel'])
+#     #TOODO: add code to ensure that we don't have channels with duplicate names.
+#     emit("channel_list", {"channels": channels_serialized}, broadcast=True)
 
 
 @socketio.on('join')
 def on_join(data):
-    new_channel = data['channel']
-    user = data['username']
-    success = False 
+    channel = data['channel']
+    previous_channel = data['previous']
 
-    if data['previous_channel']:
-        previous_channel = data['previous_channel']
+    if previous_channel: 
         leave_room(previous_channel)
-    if join_room(new_channel):
-        success = True 
+    join_room(channel)
 
-    #upon joining the room, load all the messages in that chat.
-    for channel in channels: 
-        if channel.name == new_channel:
-            # channel.add_message(Message(user = user, text = f"{user} has joined {channel.name}" ))
-            channel.serialize()
-            messages = channel.messages_serialized
-            count = len(messages)
-            emit('all messages', {'messages': messages, 'success': success, 'count' : count}, room=new_channel)
-            break
+
+    # if data['previous_channel']:
+    #     previous_channel = data['previous_channel']
+    #     leave_room(previous_channel)
+    # if join_room(new_channel):
+    #     success = True 
+
+    # #upon joining the room, load all the messages in that chat.
+    # for channel in channels: 
+    #     if channel.name == new_channel:
+    #         # channel.add_message(Message(user = user, text = f"{user} has joined {channel.name}" ))
+    #         channel.serialize()
+    #         messages = channel.messages_serialized
+    #         count = len(messages)
+    #         emit('all messages', {'messages': messages, 'success': success, 'count' : count}, room=new_channel)
+    #         break
 
 
 @socketio.on('message')
