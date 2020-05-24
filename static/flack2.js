@@ -83,6 +83,8 @@ document.addEventListener('DOMContentLoaded', function(){
         document.querySelector('#chat_form').onsubmit = () => {
             const message = document.querySelector('#message').value; 
             socket.emit('message', {"username": localStorage.getItem('username'), "channel" : localStorage.getItem('channel'), "message" : message});
+            document.querySelector('#message').value = '';
+            return false; 
         };
 
     });
@@ -96,11 +98,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
     socket.on('messages', data => {
-        // message = data.messages
-        // const li_message = document.createElement('li');
-        // li_message.innerHTML = message
-        document.querySelector('#messages').innerHTML = 'response sent from server'
-        alert('response sent from server');
+        const template = Handlebars.compile(document.querySelector('#messages_template').innerHTML); 
+        const content = template({"messages" : data.messages });
+        document.querySelector('#messages').innerHTML = content
     });
 
 

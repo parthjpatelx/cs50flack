@@ -52,7 +52,7 @@ def message(data):
         if channel.name == room:
             channel.add_message(Message(user = username, text = message))
             messages = channel.serialize()
-            emit('messages', {'messages' : f'message was sent in {channel}'}, room=room)
+            emit('messages', {'messages' : messages}, room= room)
             break 
 
     

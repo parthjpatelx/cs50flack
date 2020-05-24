@@ -102,7 +102,24 @@ after this issue is solved, the next step would be to ensure that the message fr
 the subsequent steps are written above. 
 
 
+change the message function so that it emits all messages in a given room to everybody x 
+change javascript code x
+create a hadnlebars template using the already existing template x
+pass in the messages x 
+set the load messages HTML to the content of HTML template with the messages passed in. x 
+revist the emit function and modify it so that it only emits emssages for a given room x 
+change the broadcast from True to the broadcast in the room only. x 
+ensure that chat box clear after message is submitted. x
+Ensure that if a user refershes page they can stil see the messages of the channel they joined.
+when the page is loaded, if the user is already part of a channnel, we should send an ajax reuest to the server to get a list of all the messages for that server.
 
+
+
+
+only display channel box if user is connected to a channel. 
+if there are no messages in a given channel, indicate this.
+
+ALSO as ageneral note make sure you return false whenever a form is submitted that doesn't actually result in a GET request (not including AJAX)
 
 
 ## GO back and see if we can pass in the channel object directly to index.html
