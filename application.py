@@ -33,6 +33,16 @@ def channel(channel):
             break
     return jsonify(messages)
 
+@app.route("/channels", methods=["POST"])
+def list ():
+    channel = request.form.get("channel")
+    if channel in channels_serialized:
+        return jsonify({'success' : False})
+    channels_serialized.append(channel)
+    channels.append(Channel(name = channel))
+    return jsonify({'success' : True, 'list' : channels_serialized})
+
+
     
 # @socketio.on("channels")
 # def channel(data):

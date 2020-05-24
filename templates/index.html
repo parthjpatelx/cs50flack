@@ -20,6 +20,16 @@
             {%- endraw %}                
         </script>
 
+        <script id="new_channels" type="text/template">
+            {% raw -%}
+                {{#each channels}}
+                    <li><a href = '#' class = 'channel' data-channel= {{ this }}> {{ this }}</a> </li> 
+                {{/each}} 
+            {%- endraw %}                
+        </script>
+
+
+
         <script src="{{ url_for('static', filename='flack2.js') }}"></script>
 
     </head>

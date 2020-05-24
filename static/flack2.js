@@ -26,8 +26,29 @@ document.addEventListener('DOMContentLoaded', function(){
         //configure create channel form
         document.querySelector('#create_channel').onsubmit = () => {
             const name = document.querySelector('#new_channel').value; 
-            socket.emit('channels', {'new_channel': name});
-            document.querySelector('#new_channel').value = '';
+
+            //send ajax request to get a list of messages 
+            const request = new XMLHttpRequest();
+            request.open('POST', '/channels');
+
+            request.onload = () => {
+                // Extract JSON data from request
+                const data = JSON.parse(request.responseText);
+                if (data.success){
+                    const template = Handlebars.compile(document.querySelector('#new_channels').innerHTML); 
+                    const content = template({"channels" : data.list });
+                    document.querySelector('#channels').innerHTML = content
+                }
+                else
+                {
+                    alert('please select a unique channel name');
+                }
+                document.querySelector('#new_channel').value = '';
+            }
+
+            const data = new FormData();
+            data.append('channel', name);
+            request.send(data);
             return false; 
         };
 
