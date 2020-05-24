@@ -42,6 +42,18 @@ def list ():
     channels.append(Channel(name = channel))
     return jsonify({'success' : True, 'list' : channels_serialized})
 
+@socketio.on('message')
+def message(data):
+    username = data['username']
+    room = data['channel']
+    message = data['message']
+
+    for channel in channels: 
+        if channel.name == room:
+            channel.add_message(Message(user = username, text = message))
+            messages = channel.serialize()
+            emit('messages', {'messages' : f'message was sent in {channel}'}, room=room)
+            break 
 
     
 # @socketio.on("channels")
@@ -81,12 +93,12 @@ def on_join(data):
     #         break
 
 
-@socketio.on('message')
-def message(data):
-    channel_name = data['channel']     
-    #add message to to the list of channel messages and emit the new message only.
-    for channel in channels: 
-        if channel.name == channel_name:
-            channel.add_message(Message(user = data['username'], text = data['message']))
-            emit("send_message", {"sent_message" : data['message']})
-            break
+# @socketio.on('message')
+# def message(data):
+#     channel_name = data['channel']     
+#     #add message to to the list of channel messages and emit the new message only.
+#     for channel in channels: 
+#         if channel.name == channel_name:
+#             channel.add_message(Message(user = data['username'], text = data['message']))
+#             emit("send_message", {"sent_message" : data['message']})
+#             break

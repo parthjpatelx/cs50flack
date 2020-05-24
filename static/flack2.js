@@ -82,31 +82,41 @@ document.addEventListener('DOMContentLoaded', function(){
         //configure chat form 
         document.querySelector('#chat_form').onsubmit = () => {
             const message = document.querySelector('#message').value; 
-            socket.emit('message', {"username": username_local, "channel" : current_channel, "message" : message});
+            socket.emit('message', {"username": localStorage.getItem('username'), "channel" : localStorage.getItem('channel'), "message" : message});
         };
 
     });
 
-    //add a new message in a given channel.
-    socket.on('send_message', data => {
-        const li_message = document.createElement('li');
-        li_message.innerHTML = `${data.sent_message}`;
-        document.querySelector('#messages').append(li_message);
+    // //add a new message in a given channel.
+    // socket.on('send_message', data => {
+    //     const li_message = document.createElement('li');
+    //     li_message.innerHTML = `${data.sent_message}`;
+    //     document.querySelector('#messages').append(li_message);
+    // });
+
+
+    socket.on('messages', data => {
+        // message = data.messages
+        // const li_message = document.createElement('li');
+        // li_message.innerHTML = message
+        document.querySelector('#messages').innerHTML = 'response sent from server'
+        alert('response sent from server');
     });
 
-    //after user joins channels, load all the messages 
-    socket.on('all messages', data => {
-        if (data.messages < 1 || data.messages == undefined)
-        {
-            document.querySelector('#messages').innerHTML = 'No messages in this channel!';
-        }
-        else
-        {
-            // // document.querySelector('#messages').innerHTML += data.count
-            // const messages_template = Handlebars.compile(document.querySelector('#load_messages').innerHTML); 
-            // const messages_content = messages_template({"messages" : data.messages });    
-            // document.querySelector('#messages').innerHTML = messages_content;
-        }
 
-    });
+    // //after user joins channels, load all the messages 
+    // socket.on('all messages', data => {
+    //     if (data.messages < 1 || data.messages == undefined)
+    //     {
+    //         document.querySelector('#messages').innerHTML = 'No messages in this channel!';
+    //     }
+    //     else
+    //     {
+    //         // // document.querySelector('#messages').innerHTML += data.count
+    //         // const messages_template = Handlebars.compile(document.querySelector('#load_messages').innerHTML); 
+    //         // const messages_content = messages_template({"messages" : data.messages });    
+    //         // document.querySelector('#messages').innerHTML = messages_content;
+    //     }
+
+    // });
 });

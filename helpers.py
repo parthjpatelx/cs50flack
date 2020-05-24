@@ -36,6 +36,13 @@ class Message:
         Message.counter += 1
 
 
+def serialize_channels(channels):
+    serialize_channels = []
+    for channel in channels:
+        serialize_channels.append(f'{channel.name}')
+    return serialize_channels
+        
+
 # general = Channel(name = 'general')
 # message = Message(text = 'hello', user = 'parth')
 # general.add_message(message)
