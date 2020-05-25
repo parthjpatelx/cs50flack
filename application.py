@@ -27,6 +27,8 @@ def index():
 
 @app.route("/<channel>", methods=["POST"])
 def channel(channel):
+    if channel not in channels_serialized:
+        return jsonify('not a valid channel')
     for room in channels: 
         if room.name == channel:
             messages = room.serialize()

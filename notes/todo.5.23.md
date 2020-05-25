@@ -86,11 +86,8 @@ ensure that channel is not already in our channel list. x
 javascript should pass in the current channel, user, and the message itself. x
 when a user sends a message, the message should be added to the channel messages list x
 the server should emit ALL messages in the channel as well as the user who sent that message ONLY to people in that room x
-<ensure that the messages event that the server is emitting can only be heard by the users who are currently part of that room.>
-the messages that client recieves should be passed into the message handelbars template 
-if there are are 100 messages in the channel
-remove the first element using list.pop
-add the next aelement to the list
+<ensure that the messages event that the server is emitting can only be heard by the users who are currently part of that room.> x 
+
 
 <WHERE I LEFT OFF>: 
 currently i am working on the chat function. when the chat is submtted via the chat form, a message event containing the message should be sent to the server websocket. The websocket should then broadcast all messages in the given channel to all users in that room. 
@@ -110,16 +107,43 @@ set the load messages HTML to the content of HTML template with the messages pas
 revist the emit function and modify it so that it only emits emssages for a given room x 
 change the broadcast from True to the broadcast in the room only. x 
 ensure that chat box clear after message is submitted. x
-Ensure that if a user refershes page they can stil see the messages of the channel they joined.
-when the page is loaded, if the user is already part of a channnel, we should send an ajax reuest to the server to get a list of all the messages for that server.
+Ensure that if a user refershes page they can stil see the messages of the channel they joined.x 
+when the page is loaded, if the user is already part of a channnel, we should send an ajax reuest to the server to get a list of all the messages for that server.x 
+
+factor out the AJAX request function to get a list of all the messages. call the function get_messages. it should accept a parameter of channel.x 
+check if the messages still load whena channel link is clicked after you factor this out. x 
+if they stil load, create a new function that will execute at DOMContentLoaded: if 'channel' local variable exist, send request to server to get all the messages.x
 
 
 
+
+TOODO:
 
 only display channel box if user is connected to a channel. 
-if there are no messages in a given channel, indicate this.
+    add a 'hide attribute to the chat box X
+    if user is part of a channel, unhide the chat box.  X
+    the unhide chat function should be placed when the user joins a new channel and at the start of DOMContentLoaded in case user alread belongs to a channel X
 
+
+ensure that message box cannot be submitted if user is not connected to a channel
+    remove the form action in this chat box x 
+    add to JS code that info should only be passed to server if local channel variable is not null. x 
+    add server-side code that ensures that channel being passed is from javascript server is valid.x 
+
+Bug: after you create a new channel you are unable to join it..need to refreh page first
+    it seems that the channel links are only being configured at the start of DOM content loaded. 
+    if new channels are added they need to be configured so that user can join the channel when they click on it.
+    <factor out the channel link configuration code into a fucntion caled channel_links()>
+    bug: when page is refrehsed, the message box appears evn though user isnt part of achannel.
+    add channel_links() function to when DOM conent is loaded and whenver you new channel is created.
+    What if another user elsewhere creates a channel? Will the link for this sitll work? Yes, because user needs to refresh page to see the new channel which will trigger the DOM contentloaded function to get the list of channels.
+
+if there are no messages in a given channel, indicate this.
+if there are are 100 messages in the channel
+remove the first element using list.pop
+add the next aelement to the list
 ALSO as ageneral note make sure you return false whenever a form is submitted that doesn't actually result in a GET request (not including AJAX)
+
 
 
 ## GO back and see if we can pass in the channel object directly to index.html

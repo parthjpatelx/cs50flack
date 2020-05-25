@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', function(){
     if (!localStorage.getItem('channel')){
         localStorage.setItem('channel', null);
     }
+    else
+    {
+        get_messages(localStorage.getItem('channel'));
+        document.querySelector("#chat_form").style.visibility = "visible";
+    }
 
 
     // connect with WebSocket
@@ -51,39 +56,35 @@ document.addEventListener('DOMContentLoaded', function(){
             request.send(data);
             return false; 
         };
-
-        //configure channel links 
+        
+        //configure channel links
         document.querySelectorAll('.channel').forEach(link => {
             link.onclick = () => {
                 //join the room in socket.io
                 channel = link.dataset.channel;
                 socket.emit('join', {'channel' : channel, 'previous': localStorage.getItem('channel')});
                 localStorage.setItem('channel', channel);
-
-                //send ajax request to get a list of messages 
-                const request = new XMLHttpRequest();
-                request.open('POST', `/${channel}`);
-
-                request.onload = () => {
-                    // Extract JSON data from request and display the messages
-                    const data = JSON.parse(request.responseText);
-                    const messages_template = Handlebars.compile(document.querySelector('#messages_template').innerHTML); 
-                    // example = [{text: 'message 1', user: 'test'}, {text: 'message 2', user: 'test2'}]
-                    const messages_content = messages_template({"messages" : data });
-                    document.querySelector('#messages').innerHTML = messages_content;
-                }
-
-                // Send request
-                request.send();
-                return false;
+                document.querySelector("#chat_form").style.visibility = "visible";
+    
+    
+                get_messages(channel);
+    
+    
             }
         });
 
+ 
+
         //configure chat form 
         document.querySelector('#chat_form').onsubmit = () => {
-            const message = document.querySelector('#message').value; 
-            socket.emit('message', {"username": localStorage.getItem('username'), "channel" : localStorage.getItem('channel'), "message" : message});
-            document.querySelector('#message').value = '';
+            if (localStorage.getItem('channel')){
+                const message = document.querySelector('#message').value; 
+                socket.emit('message', {"username": localStorage.getItem('username'), "channel" : localStorage.getItem('channel'), "message" : message});
+                document.querySelector('#message').value = '';
+            }
+            else{
+                alert('error: You must be part of a channel to submit a message')
+            }
             return false; 
         };
 
@@ -120,3 +121,22 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // });
 });
+
+
+
+function get_messages(channel){
+    const request = new XMLHttpRequest();
+    request.open('POST', `/${channel}`);
+
+    request.onload = () => {
+        // Extract JSON data from request and display the messages
+        const data = JSON.parse(request.responseText);
+        const messages_template = Handlebars.compile(document.querySelector('#messages_template').innerHTML); 
+        // example = [{text: 'message 1', user: 'test'}, {text: 'message 2', user: 'test2'}]
+        const messages_content = messages_template({"messages" : data });
+        document.querySelector('#messages').innerHTML = messages_content;
+    }
+
+    // Send request
+    request.send();
+}
