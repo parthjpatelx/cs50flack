@@ -29,6 +29,16 @@ document.addEventListener('DOMContentLoaded', function(){
         //configure create channel form
         document.querySelector('#create_channel').onsubmit = () => {
             const name = document.querySelector('#new_channel').value; 
+
+            let string = `${name}`
+            let array = string.split('');
+            for (let i = 0; i < array.length; i++){
+                if (array[i] == ' '){
+                    alert('channel name may not contain any spaces');
+                    document.querySelector('#new_channel').value = '';
+                    return false; 
+                }
+            }
     
             //send ajax request to get a list of messages 
             const request = new XMLHttpRequest();
@@ -86,8 +96,9 @@ document.addEventListener('DOMContentLoaded', function(){
 
     // Enable button only if there is text in the input field
     document.querySelector('#button_channel').disabled = true;
+
     document.querySelector('#new_channel').onkeyup = () => {
-        string = document.querySelector('#new_channel').value;
+        var string = document.querySelector('#new_channel').value;
         if (string.length > 0){
             document.querySelector('#button_channel').disabled = false;
         }
