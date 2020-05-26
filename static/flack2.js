@@ -26,16 +26,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
     socket.on('connect', () => {
 
-
-        // Enable button only if there is text in the input field
-        document.querySelector('#button_channel').disabled = true;
-        document.querySelector('#new_channel').onkeyup = () => {
-            if (document.querySelector('#new_channel').value.length > 0)
-                document.querySelector('#button_channel').disabled = false;
-            else
-                document.querySelector('#button_channel').disabled = true;
-        };
-        
         //configure create channel form
         document.querySelector('#create_channel').onsubmit = () => {
             const name = document.querySelector('#new_channel').value; 
@@ -74,15 +64,10 @@ document.addEventListener('DOMContentLoaded', function(){
                 socket.emit('join', {'channel' : channel, 'previous': localStorage.getItem('channel')});
                 localStorage.setItem('channel', channel);
                 document.querySelector("#chat_form").style.visibility = "visible";
-    
-    
                 get_messages(channel);
-    
-    
             }
         });
 
- 
 
         //configure chat form 
         document.querySelector('#chat_form').onsubmit = () => {
@@ -99,12 +84,17 @@ document.addEventListener('DOMContentLoaded', function(){
 
     });
 
-    // //add a new message in a given channel.
-    // socket.on('send_message', data => {
-    //     const li_message = document.createElement('li');
-    //     li_message.innerHTML = `${data.sent_message}`;
-    //     document.querySelector('#messages').append(li_message);
-    // });
+    // Enable button only if there is text in the input field
+    document.querySelector('#button_channel').disabled = true;
+    document.querySelector('#new_channel').onkeyup = () => {
+        string = document.querySelector('#new_channel').value;
+        if (string.length > 0){
+            document.querySelector('#button_channel').disabled = false;
+        }
+        else{
+            document.querySelector('#button_channel').disabled = true;
+        }
+    };
 
 
     socket.on('messages', data => {
@@ -113,24 +103,7 @@ document.addEventListener('DOMContentLoaded', function(){
         document.querySelector('#messages').innerHTML = content
     });
 
-
-    // //after user joins channels, load all the messages 
-    // socket.on('all messages', data => {
-    //     if (data.messages < 1 || data.messages == undefined)
-    //     {
-    //         document.querySelector('#messages').innerHTML = 'No messages in this channel!';
-    //     }
-    //     else
-    //     {
-    //         // // document.querySelector('#messages').innerHTML += data.count
-    //         // const messages_template = Handlebars.compile(document.querySelector('#load_messages').innerHTML); 
-    //         // const messages_content = messages_template({"messages" : data.messages });    
-    //         // document.querySelector('#messages').innerHTML = messages_content;
-    //     }
-
-    // });
 });
-
 
 
 function get_messages(channel){

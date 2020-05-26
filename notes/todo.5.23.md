@@ -177,3 +177,5 @@ ensure that channel name does not have any spaces in it in javascript code OR Fi
         when user joins the channel, the join the channel written in teh data attribute of the corresponding channel link. this is also the value that gets stored in local storage. 
         document.querySelector('#new_channel').value is accurately displaying the value of the form even when there are spaces.
         therefore, the breakdown occurs in the request.form.get fucntion from the server.
+added check so that submit button doesn't submit if there is no value in the channel field.
+currently working on javascirpt code that doesnt let the user type any spaces.
