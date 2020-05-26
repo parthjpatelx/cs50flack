@@ -136,6 +136,16 @@ Bug: after you create a new channel you are unable to join it..need to refreh pa
     <factor out the channel link configuration code into a fucntion caled channel_links()>
     bug: when page is refrehsed, the message box appears evn though user isnt part of achannel.
     add channel_links() function to when DOM conent is loaded and whenver you new channel is created.
+    I factored the channel link confiuration into a function but this doesn't seem sto be working. Perhaps in JS, in order for a function to be called, it needs to be called directly by an event listener OR contain an argument?
+    Try re-factoring but adding an argument instead. doesnt owrk 
+
+    try configure links in a few difernet ways: 
+    with and without () after channel name 
+    with or without link in paramter -> stil ldoenst work
+
+
+
+
     What if another user elsewhere creates a channel? Will the link for this sitll work? Yes, because user needs to refresh page to see the new channel which will trigger the DOM contentloaded function to get the list of channels.
 
 if there are no messages in a given channel, indicate this.
@@ -151,4 +161,19 @@ create a new class called list in helpers.py
 list class will serialize all the channel classes into their names
     NOTE: the <channel> route will also need to be updated so that the iteration is happening over the serialized version of the channels.
            
-        
+    
+TODO: 5/25/2020: 
+the message box is appearing even when channel name is set to null. Perhaps only set channel name varialbe once uer is part of  a channel? => bug solved.
+    remove javsascript code that sets up channel variable if there is no channel varialbe already  x 
+    change application.py so that it checks for data['previous_chanel'] before storing it into the previous_channel varialbe. x
+    if previous channel does not exist, will there be an issue if javascript gets the value of the current channel in local storage when it sends request to server to leave that channel? -> this should just return null.
+
+
+ensure that channel name does not have any spaces in it in javascript code OR Fix this to allow spaces. When there are spaces, the channel name is not stored properly in lcal storage. Perhaps the chanel name should be converted int oa string before it is passed to the local storage variable.
+    steps:
+        we get the value of the channel from the form
+        javascript passes the value to server via a form
+        server gets the value of the form.
+        when user joins the channel, the join the channel written in teh data attribute of the corresponding channel link. this is also the value that gets stored in local storage. 
+        document.querySelector('#new_channel').value is accurately displaying the value of the form even when there are spaces.
+        therefore, the breakdown occurs in the request.form.get fucntion from the server.

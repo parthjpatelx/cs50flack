@@ -71,9 +71,9 @@ def message(data):
 @socketio.on('join')
 def on_join(data):
     channel = data['channel']
-    previous_channel = data['previous']
 
-    if previous_channel: 
+    if data['previous']: 
+        previous_channel = data['previous']
         leave_room(previous_channel)
     join_room(channel)
 

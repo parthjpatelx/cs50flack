@@ -13,10 +13,8 @@ document.addEventListener('DOMContentLoaded', function(){
     document.querySelector('#greeting').innerHTML += content;
 
     //remember current room or set up the channel variable.
-    if (!localStorage.getItem('channel')){
-        localStorage.setItem('channel', null);
-    }
-    else
+
+    if(localStorage.getItem('channel'))
     {
         get_messages(localStorage.getItem('channel'));
         document.querySelector("#chat_form").style.visibility = "visible";
@@ -27,11 +25,21 @@ document.addEventListener('DOMContentLoaded', function(){
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
     socket.on('connect', () => {
+
+
+        // Enable button only if there is text in the input field
+        document.querySelector('#button_channel').disabled = true;
+        document.querySelector('#new_channel').onkeyup = () => {
+            if (document.querySelector('#new_channel').value.length > 0)
+                document.querySelector('#button_channel').disabled = false;
+            else
+                document.querySelector('#button_channel').disabled = true;
+        };
         
         //configure create channel form
         document.querySelector('#create_channel').onsubmit = () => {
             const name = document.querySelector('#new_channel').value; 
-
+    
             //send ajax request to get a list of messages 
             const request = new XMLHttpRequest();
             request.open('POST', '/channels');
@@ -43,6 +51,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     const template = Handlebars.compile(document.querySelector('#new_channels').innerHTML); 
                     const content = template({"channels" : data.list });
                     document.querySelector('#channels').innerHTML = content
+                    location.reload();
                 }
                 else
                 {
