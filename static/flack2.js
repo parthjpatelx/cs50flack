@@ -60,6 +60,10 @@ document.addEventListener('DOMContentLoaded', function(){
                 document.querySelector('#new_channel').value = '';
             }
 
+            previous = localStorage.getItem('channel')
+            socket.emit('join', {'channel' : name, 'previous': previous});
+            localStorage.setItem('channel', name);
+
             const data = new FormData();
             data.append('channel', name);
             request.send(data);
