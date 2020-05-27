@@ -70,8 +70,9 @@ document.addEventListener('DOMContentLoaded', function(){
         document.querySelectorAll('.channel').forEach(link => {
             link.onclick = () => {
                 //join the room in socket.io
+                previous = localStorage.getItem('channel')
                 channel = link.dataset.channel;
-                socket.emit('join', {'channel' : channel, 'previous': localStorage.getItem('channel')});
+                socket.emit('join', {'channel' : channel, 'previous': previous});
                 localStorage.setItem('channel', channel);
                 document.querySelector("#chat_form").style.visibility = "visible";
                 get_messages(channel);
