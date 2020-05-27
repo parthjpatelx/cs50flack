@@ -16,8 +16,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
     if(localStorage.getItem('channel'))
     {
+        channel = localStorage.getItem('channel');
         get_messages(localStorage.getItem('channel'));
         document.querySelector("#chat_form").style.visibility = "visible";
+        document.querySelector(`#${channel}`).style.fontWeight = "bold";
     }
 
 
