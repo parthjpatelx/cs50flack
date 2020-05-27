@@ -23,7 +23,7 @@
         <script id="new_channels" type="text/template">
             {% raw -%}
                 {{#each channels}}
-                    <li><a href = '#' class = 'channel' data-channel= {{ this }}> {{ this }}</a> </li> 
+                    <li><a href = '#' class = 'channel' data-channel= {{ this }} id = {{ this }}> {{ this }}</a> </li> 
                 {{/each}} 
             {%- endraw %}                
         </script>
@@ -56,7 +56,7 @@
         <label for channels>Channel names</label>
         <ul id = 'channels'>
             {% for channel in channels %}
-                <li><a href = '#' class = 'channel' data-channel= {{ channel }}> {{ channel }}</a> </li> 
+                <li><a href = '#' class = 'channel' data-channel= {{ channel }} id = {{ channel }}> {{ channel }}</a> </li> 
             {% endfor %}
         </ul>
 

@@ -76,6 +76,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 localStorage.setItem('channel', channel);
                 document.querySelector("#chat_form").style.visibility = "visible";
                 get_messages(channel);
+                document.querySelector(`#${channel}`).style.fontWeight = "bold";
+                document.querySelector(`#${previous}`).style.fontWeight = "normal";
             }
         });
 
