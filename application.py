@@ -57,15 +57,6 @@ def message(data):
             emit('messages', {'messages' : messages}, room= room)
             break 
 
-    
-# @socketio.on("channels")
-# def channel(data):
-#     if data['new_channel']:
-#         new_channel = data['new_channel']
-#         channels.append(Channel(name = new_channel))
-#         channels_serialized.append(data['new_channel'])
-#     #TOODO: add code to ensure that we don't have channels with duplicate names.
-#     emit("channel_list", {"channels": channels_serialized}, broadcast=True)
 
 
 @socketio.on('join')
@@ -76,31 +67,6 @@ def on_join(data):
         previous_channel = data['previous']
         leave_room(previous_channel)
     join_room(channel)
+    string = jsonify(f'user has succesfully joined {channel}')
+    emit('success', {'success' : string})
 
-
-    # if data['previous_channel']:
-    #     previous_channel = data['previous_channel']
-    #     leave_room(previous_channel)
-    # if join_room(new_channel):
-    #     success = True 
-
-    # #upon joining the room, load all the messages in that chat.
-    # for channel in channels: 
-    #     if channel.name == new_channel:
-    #         # channel.add_message(Message(user = user, text = f"{user} has joined {channel.name}" ))
-    #         channel.serialize()
-    #         messages = channel.messages_serialized
-    #         count = len(messages)
-    #         emit('all messages', {'messages': messages, 'success': success, 'count' : count}, room=new_channel)
-    #         break
-
-
-# @socketio.on('message')
-# def message(data):
-#     channel_name = data['channel']     
-#     #add message to to the list of channel messages and emit the new message only.
-#     for channel in channels: 
-#         if channel.name == channel_name:
-#             channel.add_message(Message(user = data['username'], text = data['message']))
-#             emit("send_message", {"sent_message" : data['message']})
-#             break
