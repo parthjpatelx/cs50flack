@@ -50,6 +50,9 @@ document.addEventListener('DOMContentLoaded', function(){
                 // Extract JSON data from request
                 const data = JSON.parse(request.responseText);
                 if (data.success){
+                    previous = localStorage.getItem('channel')
+                    socket.emit('join', {'channel' : name, 'previous': previous});
+                    localStorage.setItem('channel', name);
                     const template = Handlebars.compile(document.querySelector('#new_channels').innerHTML); 
                     const content = template({"channels" : data.list });
                     document.querySelector('#channels').innerHTML = content
@@ -62,9 +65,9 @@ document.addEventListener('DOMContentLoaded', function(){
                 document.querySelector('#new_channel').value = '';
             }
 
-            previous = localStorage.getItem('channel')
-            socket.emit('join', {'channel' : name, 'previous': previous});
-            localStorage.setItem('channel', name);
+            // previous = localStorage.getItem('channel')
+            // socket.emit('join', {'channel' : name, 'previous': previous});
+            // localStorage.setItem('channel', name);
 
             const data = new FormData();
             data.append('channel', name);
