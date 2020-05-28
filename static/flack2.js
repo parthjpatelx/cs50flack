@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if(localStorage.getItem('channel'))
     {
         channel = localStorage.getItem('channel');
-        get_messages(localStorage.getItem('channel'));
+        get_messages(channel);
         document.querySelector("#chat_form").style.visibility = "visible";
         document.querySelector(`#${channel}`).style.fontWeight = "bold";
     }
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
             }
     
-            //send ajax request to get a list of messages 
+            //send ajax request to get a list of channels 
             const request = new XMLHttpRequest();
             request.open('POST', '/channels');
 
@@ -50,12 +50,16 @@ document.addEventListener('DOMContentLoaded', function(){
                 // Extract JSON data from request
                 const data = JSON.parse(request.responseText);
                 if (data.success){
-                    previous = localStorage.getItem('channel')
-                    socket.emit('join', {'channel' : name, 'previous': previous});
+                    //modify local storage to get new channel name
+                    previous = localStorage.getItem('channel');
                     localStorage.setItem('channel', name);
+                    //emit a join request to the websocket. 
+                    socket.emit('join', {'channel' : name, 'previous': previous});
+                    //take the list channels we recieved and add template it
                     const template = Handlebars.compile(document.querySelector('#new_channels').innerHTML); 
                     const content = template({"channels" : data.list });
                     document.querySelector('#channels').innerHTML = content
+                    //refresh page
                     location.reload();
                 }
                 else
@@ -64,10 +68,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 }
                 document.querySelector('#new_channel').value = '';
             }
-
-            // previous = localStorage.getItem('channel')
-            // socket.emit('join', {'channel' : name, 'previous': previous});
-            // localStorage.setItem('channel', name);
 
             const data = new FormData();
             data.append('channel', name);
