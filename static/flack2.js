@@ -12,16 +12,6 @@ document.addEventListener('DOMContentLoaded', function(){
     const content = template({"user" : username_local});
     document.querySelector('#greeting').innerHTML += content;
 
-    //remember current room or set up the channel variable.
-
-    if(localStorage.getItem('channel'))
-    {
-        channel = localStorage.getItem('channel');
-        get_messages(channel);
-        document.querySelector("#chat_form").style.visibility = "visible";
-        document.querySelector(`#${channel}`).style.fontWeight = "bold";
-    }
-
 
     // connect with WebSocket
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
@@ -29,6 +19,10 @@ document.addEventListener('DOMContentLoaded', function(){
     socket.on('connect', () => {
 
         if(localStorage.getItem('channel')){
+            channel = localStorage.getItem('channel');
+            get_messages(channel);
+            document.querySelector("#chat_form").style.visibility = "visible";
+            document.querySelector(`#${channel}`).style.fontWeight = "bold";
             socket.emit('join', {'channel' : localStorage.getItem('channel'), 'previous' : localStorage.getItem('previous')});
         }
 
