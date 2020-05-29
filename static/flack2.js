@@ -20,10 +20,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
         if(localStorage.getItem('channel')){
             channel = localStorage.getItem('channel');
+            previous = localStorage.getItem('previous');
             get_messages(channel);
             document.querySelector("#chat_form").style.visibility = "visible";
             document.querySelector(`#${channel}`).style.fontWeight = "bold";
-            socket.emit('join', {'channel' : localStorage.getItem('channel'), 'previous' : localStorage.getItem('previous')});
+            socket.emit('join', {'channel' : channel, 'previous' : previous});
         }
 
         //configure create channel form
