@@ -12,11 +12,9 @@
 
         <script id="messages_template" type="text/template">
             {% raw -%}
-            <ul>
                 {{#each messages}}
                     <li>{{ this.user }} said {{ this.text }} </li>
                 {{/each}} 
-            </ul>
             {%- endraw %}                
         </script>
 

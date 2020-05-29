@@ -84,6 +84,9 @@ document.addEventListener('DOMContentLoaded', function(){
                     document.querySelector(`#${channel}`).style.fontWeight = "bold";
                     document.querySelector(`#${previous}`).style.fontWeight = "normal";
                 }
+                else{
+                    return false; 
+                }
             }
         });
 
