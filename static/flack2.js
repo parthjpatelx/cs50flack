@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function(){
     socket.on('connect', () => {
 
         if(localStorage.getItem('channel')){
-            socket.emit('join', {'channel' : localStorage.getItem('channel'), 'previous' : null});
+            socket.emit('join', {'channel' : localStorage.getItem('channel'), 'previous' : localStorage.getItem('previous')});
         }
 
         //configure create channel form
@@ -54,12 +54,8 @@ document.addEventListener('DOMContentLoaded', function(){
                 // Extract JSON data from request
                 const data = JSON.parse(request.responseText);
                 if (data.success){
-                    //modify local storage to get new channel name
-                    previous = localStorage.getItem('channel');
+                    localStorage.setItem('previous', localStorage.getItem('channel'));
                     localStorage.setItem('channel', name);
-                    //emit a join request to the websocket. 
-                    // socket.emit('join', {'channel' : name, 'previous': localStorage.getItem('channel')});
-                    //take the list channels we recieved and add template it
                     const template = Handlebars.compile(document.querySelector('#new_channels').innerHTML); 
                     const content = template({"channels" : data.list });
                     document.querySelector('#channels').innerHTML = content
