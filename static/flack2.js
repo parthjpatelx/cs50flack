@@ -76,12 +76,14 @@ document.addEventListener('DOMContentLoaded', function(){
                 //join the room in socket.io
                 previous = localStorage.getItem('channel')
                 channel = link.dataset.channel;
-                socket.emit('join', {'channel' : channel, 'previous': previous});
-                localStorage.setItem('channel', channel);
-                document.querySelector("#chat_form").style.visibility = "visible";
-                get_messages(channel);
-                document.querySelector(`#${channel}`).style.fontWeight = "bold";
-                document.querySelector(`#${previous}`).style.fontWeight = "normal";
+                if (previous != channel){
+                    socket.emit('join', {'channel' : channel, 'previous': previous});
+                    localStorage.setItem('channel', channel);
+                    document.querySelector("#chat_form").style.visibility = "visible";
+                    get_messages(channel);
+                    document.querySelector(`#${channel}`).style.fontWeight = "bold";
+                    document.querySelector(`#${previous}`).style.fontWeight = "normal";
+                }
             }
         });
 
