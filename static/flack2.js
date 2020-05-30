@@ -33,9 +33,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
             let string = `${name}`
             let array = string.split('');
+            special_characters = ['!','@', '#', '%', '^', '&', '*', '(', ')', ' ']; 
             for (let i = 0; i < array.length; i++){
-                if (array[i] == ' '){
-                    alert('channel name may not contain any spaces');
+                if (special_characters.includes(array[i])){
+                    alert('channel name may not contain any spaces or special characters');
                     document.querySelector('#new_channel').value = '';
                     return false; 
                 }
@@ -116,6 +117,19 @@ document.addEventListener('DOMContentLoaded', function(){
         }
         else{
             document.querySelector('#button_channel').disabled = true;
+        }
+    };
+
+    // Enable button only if there is text in the input field
+    document.querySelector('#send').disabled = true;
+
+    document.querySelector('#message').onkeyup = () => {
+        var string = document.querySelector('#message').value;
+        if (string.length > 0){
+            document.querySelector('#send').disabled = false;
+        }
+        else{
+            document.querySelector('#send').disabled = true;
         }
     };
 
