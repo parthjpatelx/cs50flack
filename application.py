@@ -16,9 +16,12 @@ channels = [general]
 channels_serialized = ['general']
 
 #add test messages to the general channel. 
-general.add_message(Message(user = 'test', text = "message 1"))
-general.add_message(Message(user = 'test2', text = "message 2"))
-general.add_message(Message(user = 'test3', text = "message 3"))
+for i in range(98):
+    general.add_message(Message(user = 'test', text = f"message {i}"))
+
+# general.add_message(Message(user = 'test', text = "message 1"))
+# general.add_message(Message(user = 'test2', text = "message 2"))
+# general.add_message(Message(user = 'test3', text = "message 3"))
 
 
 @app.route("/")
@@ -52,6 +55,8 @@ def message(data):
 
     for channel in channels: 
         if channel.name == room:
+            if len(channel.messages) == 100:
+                channel.messages.pop(0)
             channel.add_message(Message(user = username, text = message))
             messages = channel.serialize()
             emit('messages', {'messages' : messages}, room= room)
