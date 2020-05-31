@@ -15,7 +15,7 @@ class Channel:
     def serialize(self):
         messages = []
         for message in self.messages:
-            messages.append({"text" : f"{message.text}", "user": f"{message.user}", "time": f"{message.time}"})
+            messages.append({"text" : message.__dict__['text'], "user": message.__dict__['user'], "time": message.__dict__['time']})
         return messages
 
 
