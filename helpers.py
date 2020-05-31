@@ -1,3 +1,5 @@
+import datetime
+
 class Channel:
     counter = 0
     def __init__(self, name):
@@ -19,7 +21,7 @@ class Channel:
     def serialize(self):
         messages = []
         for message in self.messages:
-            messages.append({"text" : f"{message.text}", "user": f"{message.user}"})
+            messages.append({"text" : f"{message.text}", "user": f"{message.user}", "time": f"{message.time}"})
         return messages
     
     # def serialize_name(self):
@@ -31,6 +33,7 @@ class Message:
     def __init__(self, user, text):
         self.text = text
         self.user = user
+        self.time = f'{datetime.datetime.now().strftime("%X")}'
 
         self.id = Message.counter
         Message.counter += 1
