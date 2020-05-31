@@ -31,9 +31,8 @@ def channel(channel):
         return jsonify('not a valid channel')
     for room in channels: 
         if room.name == channel:
-            messages = room.serialize()
-            break
-    return jsonify(messages)
+            return jsonify(room.serialize())
+    
 
 #support creating a new channel
 @app.route("/channels", methods=["POST"])
@@ -56,19 +55,15 @@ def message(data):
             if len(channel.messages) == 100:
                 channel.messages.pop(0)
             channel.add_message(Message(user = username, text = message))
-            messages = channel.serialize()
-            emit('messages', {'messages' : messages}, room= room)
+            emit('messages', {'messages' : channel.serialize()}, room= room)
             break 
-        
+
 #join a channel
 @socketio.on('join')
 def on_join(data):
     channel = data['channel']
-
     if data['previous']: 
         previous_channel = data['previous']
         leave_room(previous_channel)
     join_room(channel)
-    string = jsonify(f'user has succesfully joined {channel}')
-    emit('success', {'success' : string})
 
