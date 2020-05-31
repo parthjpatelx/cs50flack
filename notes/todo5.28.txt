@@ -1,0 +1,2 @@
+add __dict__ property to the serialize channel definition 
+remove seperate channels_serialize list

@@ -4,7 +4,7 @@ import datetime
 
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_socketio import SocketIO, emit, join_room, leave_room
-from helpers import Channel, Message
+from helpers import Channel, Message, serialize_channels
  
 
 app = Flask(__name__)
@@ -14,24 +14,20 @@ socketio = SocketIO(app)
 #global var, array of channel classes. Can we convert this into a set?
 general = Channel(name = 'general')
 channels = [general]
-channels_serialized = ['general']
 
 #add test messages to the general channel. 
 for i in range(98):
     general.add_message(Message(user = 'test', text = f"message {i}"))
 
-# general.add_message(Message(user = 'test', text = "message 1"))
-# general.add_message(Message(user = 'test2', text = "message 2"))
-# general.add_message(Message(user = 'test3', text = "message 3"))
-
-
+# load page with channel list
 @app.route("/")
 def index():
-    return render_template('index.html', channels = channels_serialized)
+    return render_template('index.html', channels = serialize_channels(channels))
 
+#get messages for a given channel
 @app.route("/<channel>", methods=["POST"])
 def channel(channel):
-    if channel not in channels_serialized:
+    if channel not in serialize_channels(channels):
         return jsonify('not a valid channel')
     for room in channels: 
         if room.name == channel:
@@ -39,15 +35,16 @@ def channel(channel):
             break
     return jsonify(messages)
 
+#support creating a new channel
 @app.route("/channels", methods=["POST"])
 def list ():
     channel = request.form.get("channel")
-    if channel in channels_serialized:
+    if channel in serialize_channels(channels):
         return jsonify({'success' : False})
-    channels_serialized.append(channel)
     channels.append(Channel(name = channel))
-    return jsonify({'success' : True, 'list' : channels_serialized})
+    return jsonify({'success' : True, 'list' : serialize_channels(channels)})
 
+#send messages over a given channel to all users part of that channel.
 @socketio.on('message')
 def message(data):
     username = data['username']
@@ -62,9 +59,8 @@ def message(data):
             messages = channel.serialize()
             emit('messages', {'messages' : messages}, room= room)
             break 
-
-
-
+        
+#join a channel
 @socketio.on('join')
 def on_join(data):
     channel = data['channel']

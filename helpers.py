@@ -1,31 +1,22 @@
 import datetime
+import json
 
 class Channel:
     counter = 0
     def __init__(self, name):
         self.name = name
         self.messages = []
-        # self.messages_serialized = []
-        # self.name_serialized = []
-
         self.id = Channel.counter
         Channel.counter += 1
     
     def add_message(self, m):
         self.messages.append(m)
 
-    # def serialize(self):
-    #     for message in self.messages:
-    #         self.messages_serialized.append({"text" : message.text, "user": message.user})
-
     def serialize(self):
         messages = []
         for message in self.messages:
             messages.append({"text" : f"{message.text}", "user": f"{message.user}", "time": f"{message.time}"})
         return messages
-    
-    # def serialize_name(self):
-    #     self.name_serialized.append({"name": self.name})
 
 
 class Message:
@@ -42,17 +33,23 @@ class Message:
 def serialize_channels(channels):
     serialize_channels = []
     for channel in channels:
-        serialize_channels.append(f'{channel.name}')
+        serialize_channels.append(channel.__dict__['name'])
     return serialize_channels
-        
+
+# general = Channel(name = 'general')
+# new = Channel(name = 'new')
+
+# print(general.__dict__['name'])
+# channels = [general, new]
+# print(serialize_channels(channels))
+
+
 
 # general = Channel(name = 'general')
 # message = Message(text = 'hello', user = 'parth')
 # general.add_message(message)
 # general.serialize()
 # print(f"{general.messages_serialized}")
-
-
 
 
 # example:
