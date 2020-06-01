@@ -1,3 +1,28 @@
 ul {
     list-style-type: none;
   }
+nav {
+  margin: 0;
+  width: 300px;
+  background-color: rgb(202, 177, 212);
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.content{
+  margin-left:300px;
+  padding:1px 16px;
+  height:1000px;
+}
+
+.messages{
+  overflow: auto;
+  height: 80%;
+}
+
+
+/* TOODO:
+creat ea a 'main tag'
+move everything that is not a navbar into the main tag 
+the margin-left of main tag should be equal to the width of the navbar  */ 
