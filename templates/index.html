@@ -14,7 +14,7 @@
         <script id="messages_template" type="text/template">
             {% raw -%}
                 {{#each messages}}
-                    <li>{{ this.user }} said {{ this.text }} on {{ this.time }} </li>
+                    <li class = 'message_item'>{{ this.user }} said {{ this.text }} on {{ this.time }} </li>
                 {{/each}} 
             {%- endraw %}                
         </script>
@@ -40,7 +40,7 @@
         <!-- list of existing channel names -->
         <nav>
             <!-- Greet user -->
-            <h1 id = 'greeting'></h1>
+            <b id = 'greeting'></b>
             <h2 id = 'current_channel'></h2>
 
             <!-- create a new channel form -->
@@ -48,19 +48,21 @@
                 <input type = 'text' placeholder = 'Create new channel' id = 'new_channel'>
                 <input type = 'submit' id = 'button_channel'>
             </form>
-
-            <label for channels>Channel names</label>
-            <ul id = 'channels'>
-                {% for channel in channels %}
-                    <li><a href = '#' class = 'channel' data-channel= {{ channel }} id = {{ channel }}> {{ channel }}</a> </li> 
-                {% endfor %}
-            </ul>
+            
+            <div class = 'channels'>
+                <label for channels>Channel names</label>
+                <ul id = 'channels'>
+                    {% for channel in channels %}
+                        <li><a href = '#' class = 'channel' data-channel= {{ channel }} id = {{ channel }}> {{ channel }}</a> </li> 
+                    {% endfor %}
+                </ul>
+            </div>
         </nav>
 
         <div class = 'content'>
             <!-- messages in a given channel -->
+            Messages
             <div class = 'messages'>
-                <label for messages>Messages</label>
                 <ul id = 'messages'>
                 </ul>
             </div>
@@ -72,6 +74,7 @@
                     <input type = 'submit' id = 'send'>
                 </form>
             </div>
+            
         </div>
 
     </body>

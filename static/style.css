@@ -2,7 +2,7 @@ ul {
     list-style-type: none;
   }
 nav {
-  margin: 0;
+  padding-top: 30px;
   width: 300px;
   background-color: rgb(202, 177, 212);
   position: fixed;
@@ -11,17 +11,35 @@ nav {
 }
 
 .content{
-  margin-left:300px;
-  padding:1px 16px;
-  height:1000px;
+  position: fixed;
+  margin-left:320px;
+  margin-top: 20px;
+  height: 100%;
+  width: 85%;
 }
 
 .messages{
   overflow: auto;
-  height: 80%;
+  height: 60%;
+  width: 90%; 
+  word-wrap: break-word
 }
 
+.chat_form{
+  margin-top: 10%;
+  margin-bottom: 0%;
+}
 
+.channels{
+  padding-top: 30px;
+}
+
+.message_item{
+  margin-top:10px;
+  margin-bottom: 10px;
+  margin-left: 30px;
+  padding-right: 200px;
+}
 /* TOODO:
 creat ea a 'main tag'
 move everything that is not a navbar into the main tag 
