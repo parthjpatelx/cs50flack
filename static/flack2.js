@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
             let string = `${name}`
             let array = string.split('');
-            special_characters = ['!','@', '#', '%', '^', '&', '*', '(', ')', ' ', ']', '[']; 
+            special_characters = ['!','@', '#', '%', '^', '&', '*', '(', ')', ' ', ']', '[', ';', ',']; 
             for (let i = 0; i < array.length; i++){
                 if (special_characters.includes(array[i])){
                     alert('channel name may not contain any spaces or special characters');
