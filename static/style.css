@@ -9,19 +9,20 @@ nav {
   height: 100%;
   overflow: auto;
   color: whitesmoke;
-}
+  border-right-style: solid;
+  border-color: gray;}
 
 .content{
   position: fixed;
   margin-left:320px;
-  margin-top: 20px;
+  margin-top: 40px;
   height: 100%;
   width: 85%;
 }
 
 .messages{
   overflow: auto;
-  height: 60%;
+  height: 62%;
   width: 90%; 
   word-wrap: break-word
 }
@@ -29,6 +30,8 @@ nav {
 .chat_form{
   margin-top: 10%;
   margin-bottom: 0%;
+  padding-left: 30px;
+  width: 90%; 
 }
 
 .channels{
