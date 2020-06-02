@@ -46,7 +46,12 @@ nav {
   font-weight: lighter;
   color: gray;
 }
-/* TOODO:
-creat ea a 'main tag'
-move everything that is not a navbar into the main tag 
-the margin-left of main tag should be equal to the width of the navbar  */ 
+
+@keyframes grow {
+  from {
+      font-size: 14px;
+  }
+  to  {
+      font-size: 20px;
+  }
+}

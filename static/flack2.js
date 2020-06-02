@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
     socket.on('connect', () => {
+        console.log('connected');
 
         if(localStorage.getItem('channel')){
             channel = localStorage.getItem('channel');
@@ -138,6 +139,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const template = Handlebars.compile(document.querySelector('#messages_template').innerHTML); 
         const content = template({"messages" : data.messages });
         document.querySelector('#messages').innerHTML = content
+        scroll_last();
     });
 
 });
@@ -159,9 +161,18 @@ function get_messages(channel){
         else{
             document.querySelector('#messages').innerHTML = 'no messages to display'
         }
+        scroll_last();
 
     }
 
     // Send request
     request.send();
+}
+
+function scroll_last(){
+    var last_message = document.querySelector("#messages").lastElementChild;
+    if (last_message){
+        last_message.scrollIntoView();
+        console.log(last_message);
+    }
 }
