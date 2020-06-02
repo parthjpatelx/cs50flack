@@ -65,7 +65,7 @@
 
         <div class = 'content'>
             <!-- messages in a given channel -->
-            Messages
+            
             <div class = 'messages'>
                 <ul id = 'messages'>
                 </ul>
@@ -74,7 +74,9 @@
             <!-- send message form  -->
             <div class = 'chat_form'>
                 <form id = 'chat_form' action = "/" style = 'visibility: hidden;'>
-                    <input autofocus type = 'text' placeholder = 'message'  id = 'message'>
+                    <div class="form-group">
+                        <input autofocus type = 'text' placeholder = 'message'  id = 'message' class="form-control" style = 'width: 85%;'>
+                    </div>
                     <input type = 'submit' class="btn btn-primary btn-sm" id = 'send'>
                 </form>
             </div>
