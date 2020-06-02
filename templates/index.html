@@ -45,8 +45,12 @@
 
             <!-- create a new channel form -->
             <form id = 'create_channel'>
-                <input type = 'text' placeholder = 'Create new channel' id = 'new_channel'>
-                <input type = 'submit' id = 'button_channel'>
+                <div class="input-group mb-3">
+                    <input type = 'text' placeholder = 'Create new channel' id = 'new_channel'>
+                    <div class = "input-group-append">
+                        <input type = 'submit' class="btn btn-primary btn-sm" id = 'button_channel'>
+                    </div>
+                </div>
             </form>
             
             <div class = 'channels'>
@@ -71,7 +75,7 @@
             <div class = 'chat_form'>
                 <form id = 'chat_form' action = "/" style = 'visibility: hidden;'>
                     <input autofocus type = 'text' placeholder = 'message'  id = 'message'>
-                    <input type = 'submit' id = 'send'>
+                    <input type = 'submit' class="btn btn-primary btn-sm" id = 'send'>
                 </form>
             </div>
             

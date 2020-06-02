@@ -47,11 +47,3 @@ nav {
   color: gray;
 }
 
-@keyframes grow {
-  from {
-      font-size: 14px;
-  }
-  to  {
-      font-size: 20px;
-  }
-}
