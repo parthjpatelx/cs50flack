@@ -1,6 +1,8 @@
 ul {
     list-style-type: none;
   }
+
+
 nav {
   padding-top: 30px;
   width: 300px;
@@ -10,15 +12,33 @@ nav {
   overflow: auto;
   color: whitesmoke;
   border-right-style: solid;
-  border-color: gray;}
+  border-color: gray;
+  border-width: 8px;
+}
 
 .content{
   position: fixed;
   margin-left:320px;
   margin-top: 40px;
+  margin-right:50px;
   height: 100%;
-  width: 85%;
+  width: 1200px;
+  /* width: 85%; */
 }
+
+
+@media (max-width: 1000px){
+  nav{
+    display: none;
+    overflow: hidden;
+  }
+  .content{
+    margin-left:20px;
+    margin-right:20px;
+    margin-top: 40px;
+  }
+}
+
 
 .messages{
   overflow: auto;
@@ -50,3 +70,20 @@ nav {
   color: gray;
 }
 
+
+.channel:hover{
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+li a.active{
+  color: white;
+}
+
+/* TOODO:
+when a link is clicked it should be bolded in white
+when link is clicked the group name banner should appear at the top of the chat
+format 'no messages to display' so that it is in the midlde of the chat window and is in gray
+send message when user is typing
+add the ability to send an attachment 
+create a custom dropdown prompt box */
