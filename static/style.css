@@ -5,10 +5,14 @@ ul {
 
 nav {
   padding-top: 30px;
+  padding-bottom: 30px;
+  padding-right: 10px;
+  padding-left: 15px;
   width: 300px;
+  height: 100%;
+
   background-color: black;
   position: fixed;
-  height: 100%;
   overflow: auto;
   color: whitesmoke;
   border-right-style: solid;
@@ -16,42 +20,23 @@ nav {
   border-width: 8px;
 }
 
-.content{
-  position: fixed;
-  margin-left:320px;
-  margin-top: 40px;
-  margin-right:50px;
-  height: 100%;
-  width: 1200px;
-  /* width: 85%; */
-}
-
-
-@media (max-width: 1000px){
-  nav{
-    display: none;
-    overflow: hidden;
-  }
-  .content{
-    margin-left:20px;
-    margin-right:20px;
-    margin-top: 40px;
-  }
-}
-
-
-.messages{
+#messages{
+  margin-top: 20px;
+  margin-bottom: 150px;
+  margin-left:310px;
+  margin-right:20px;
+  height: 450px;
+  border-style: solid;
   overflow: auto;
-  height: 62%;
-  width: 90%; 
   word-wrap: break-word
 }
 
 .chat_form{
-  margin-top: 10%;
-  margin-bottom: 0%;
-  padding-left: 30px;
-  width: 90%; 
+  margin-bottom: 75px;
+  margin-top: 10px;
+  margin-left:300px;
+  margin-right:20px;
+  padding-left:20px;
 }
 
 .channels{
@@ -78,6 +63,10 @@ nav {
 
 li a.active{
   color: white;
+}
+
+body{
+  display: grid;
 }
 
 /* TOODO:

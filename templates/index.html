@@ -34,13 +34,12 @@
 
     </head>
 
-
     <body>
 
-        <!-- list of existing channel names -->
+        <!-- Navigation bar -->
         <nav>
-            <!-- Greet user -->
             <b id = 'greeting'></b>
+            
 
             <!-- create a new channel form -->
             <form id = 'create_channel'>
@@ -62,28 +61,23 @@
             </div>
         </nav>
 
-        <div class = 'content'>
-            <!-- messages in a given channel -->
-            
-            <div class = 'messages'>
-                <ul id = 'messages'>
-                </ul>
-            </div>
+        
+        <!-- messages in a given channel -->
+        <ul id = 'messages'>
+        </ul>
+        
 
-            <!-- send message form  -->
-            <div class = 'chat_form'>
-                <form id = 'chat_form' action = "/" style = 'visibility: hidden;'>
-                    <div class="input-group mb-3">
-                        <input autofocus type = 'text' placeholder = 'message'  id = 'message' class="form-control" autocomplete="off">
-                        <div class="input-group-append">
-                            <input type = 'submit' class="btn btn-primary btn-sm" id = 'send'>
-                        </div>
+        <!-- send message form  -->
+        <div class = 'chat_form'>
+            <form id = 'chat_form' action = "/" style = 'visibility: hidden;'>
+                <div class="input-group mb-3">
+                    <input autofocus type = 'text' placeholder = 'message'  id = 'message' class="form-control" autocomplete="off">
+                    <div class="input-group-append">
+                        <input type = 'submit' class="btn btn-primary btn-sm" id = 'send'>
                     </div>
-                </form>
-            </div>
-            
+                </div>
+            </form>
         </div>
-
     </body>
 
 </html>
