@@ -66,4 +66,3 @@ def on_join(data):
         previous_channel = data['previous']
         leave_room(previous_channel)
     join_room(channel)
-
