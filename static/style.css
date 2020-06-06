@@ -2,8 +2,13 @@ ul {
     list-style-type: none;
   }
 
+body{
+  /* padding-top: 1px; */
+  border: 1px solid black;
+}
 
 nav {
+  margin-top: 0px;
   padding-top: 30px;
   padding-bottom: 30px;
   padding-right: 10px;
@@ -21,18 +26,19 @@ nav {
 }
 
 #messages{
-  margin-top: 20px;
-  margin-bottom: 150px;
+  /* padding-top: 10px; */
+  margin-top: 40px;
   margin-left:310px;
   margin-right:20px;
-  height: 450px;
+  padding-right: 10px;
+  height: 70%;
   border-style: solid;
   overflow: auto;
-  word-wrap: break-word
+  word-wrap: break-word;
+  /* position: fixed; */
 }
 
 .chat_form{
-  margin-bottom: 75px;
   margin-top: 10px;
   margin-left:300px;
   margin-right:20px;
@@ -66,7 +72,11 @@ li a.active{
 }
 
 body{
-  display: grid;
+  /* display: grid; */
+}
+
+html, body{
+  height: 100%;
 }
 
 /* TOODO:
