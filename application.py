@@ -4,12 +4,16 @@ import datetime
 
 from flask import Flask, flash, jsonify, redirect, render_template, request, session
 from flask_socketio import SocketIO, emit, join_room, leave_room
-from helpers import Channel, Message, serialize_channels
+from helpers import Channel, Message, serialize_channels, allowed_file, ALLOWED_EXTENSIONS
+from werkzeug.utils import secure_filename
  
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
+
+UPLOAD_FOLDER = 'C:/Users/Parth/project2/cs50flack/message_attachments'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #global var, array of channel classes. Can we convert this into a set?
 general = Channel(name = 'general')
@@ -66,3 +70,16 @@ def on_join(data):
         previous_channel = data['previous']
         leave_room(previous_channel)
     join_room(channel)
+
+@app.route("/upload", methods=['GET','POST'])
+def upload(): 
+    if request.method == 'GET':
+        return render_template('upload.html')
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return('Success')
+        else:
+            return ('please select a valid file type')

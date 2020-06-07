@@ -36,6 +36,14 @@ def serialize_channels(channels):
         serialize_channels.append(channel.__dict__['name'])
     return serialize_channels
 
+
+# from flask documentation: https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/#upload-progress-bars
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+        
 # general = Channel(name = 'general')
 # new = Channel(name = 'new')
 
