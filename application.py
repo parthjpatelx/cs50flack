@@ -2,7 +2,7 @@ import os
 import requests
 import datetime
 
-from flask import Flask, flash, jsonify, redirect, render_template, request, session
+from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for, send_from_directory, abort
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from helpers import Channel, Message, serialize_channels, allowed_file, ALLOWED_EXTENSIONS
 from werkzeug.utils import secure_filename
@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
-UPLOAD_FOLDER = 'C:/Users/Parth/project2/cs50flack/message_attachments'
+UPLOAD_FOLDER = 'C:/Users/Parth/project2/cs50flack/message_attachments/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #global var, array of channel classes. Can we convert this into a set?
@@ -71,15 +71,25 @@ def on_join(data):
         leave_room(previous_channel)
     join_room(channel)
 
+#Based on flask documentation: https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/#upload-progress-bars
 @app.route("/upload", methods=['GET','POST'])
 def upload(): 
     if request.method == 'GET':
         return render_template('upload.html')
     if request.method == 'POST':
+        #access file to file dictionary of the request object
         file = request.files['file']
+        #save file locally
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return('Success')
+            return redirect(url_for('uploaded_file',filename=filename))
         else:
             return ('please select a valid file type')
+
+@app.route('/upload/<filename>')
+def uploaded_file(filename):
+    try:
+        return send_from_directory(app.config['UPLOAD_FOLDER'], filename=filename, as_attachment=True)
+    except FileNotFoundError:
+        abort(404)
