@@ -14,7 +14,11 @@
         <script id="messages_template" type="text/template">
             {% raw -%}
                 {{#each messages}}
-                    <li class = 'message_item'><b> {{ this.user }} </b> <span class = 'time'> {{ this.time }} </span>  <br> {{ this.text }}  </li>
+                    {{#if this.filename}}
+                        <li class = 'message_item'> <a href = '#' class = 'filename' data-filename = {{ this.filename }}> Attachment: {{ this.filename }} </a> </li>
+                    {{else}}
+                        <li class = 'message_item'><b> {{ this.user }} </b> <span class = 'time'> {{ this.time }} </span>  <br> {{ this.text }}  </li>
+                    {{/if}}
                 {{/each}} 
             {%- endraw %}                
         </script>

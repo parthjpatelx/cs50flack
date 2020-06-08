@@ -96,9 +96,47 @@ document.addEventListener('DOMContentLoaded', function(){
         //configure chat form 
         document.querySelector('#chat_form').onsubmit = () => {
             if (localStorage.getItem('channel')){
-                const message = document.querySelector('#message').value; 
-                socket.emit('message', {"username": localStorage.getItem('username'), "channel" : localStorage.getItem('channel'), "message" : message});
+                // if (document.querySelector('#message').value.length != 0){
+                //     const message = document.querySelector('#message').value; 
+                //     socket.emit('message', {"username": localStorage.getItem('username'), "channel" : localStorage.getItem('channel'), "message" : message});
+                //     document.querySelector('#message').value = '';
+                // }
+
+                //check if message was inputted or file was atached
+                var filename = null;
+                var message = null; 
+
+                if (document.querySelector('#file').value){
+                    filename = document.querySelector('#file').value;
+                    // note we should parse the path to get just the filename or it wil appear like this: // C:\fakepath\testfile.txt
+                }
+                if (document.querySelector('#message').value.length != 0){
+                    message = document.querySelector('#message').value
+                }
+
+                //send attachment name and message to websocket server
+                socket.emit('message', 
+                            {"username": localStorage.getItem('username'),
+                            "channel" : localStorage.getItem('channel'),
+                            "message" : message, 
+                            'filename' : filename});
+               
                 document.querySelector('#message').value = '';
+                document.querySelector('#file').value = '';
+
+
+                // if a file was uploaded 
+                    //get the filename of the attachment that was uploaded
+                    //emit to message socket. 
+                    //socket.emit('message', {"username": localStorage.getItem('username'), "channel" : localStorage.getItem('channel'), "message" : None, 'attachment' filename});
+                    //clear the file that was uploaded
+
+                //better yet, automatically set the message and the filename to None
+                //if message exist or file was uploaded set the message and file variable to queryselector(message).value and filename respectivel
+                //emit a single socket request
+
+                //create a seperate function to configure attachmetn links. 
+
             }
             else{
                 alert('error: You must be part of a channel to submit a message')
@@ -154,20 +192,33 @@ function get_messages(channel){
         const data = JSON.parse(request.responseText);
         if (data.length > 1){
             const messages_template = Handlebars.compile(document.querySelector('#messages_template').innerHTML); 
-            // example = [{text: 'message 1', user: 'test'}, {text: 'message 2', user: 'test2'}]
             const messages_content = messages_template({"messages" : data });
             document.querySelector('#messages').innerHTML = messages_content;
         }
         else{
             document.querySelector('#messages').innerHTML = 'no messages to display'
         }
+
+        document.querySelectorAll('.filename').forEach(link => {
+            link.onclick = function(){
+                filename = link.dataset.filename;
+                const request = new XMLHttpRequest();
+                request.open('GET', `/upload/${filename}`);   
+            }
+        });
+
         scroll_last();
+        // after all messages are loaded configure the links of each element of class attachment
+        //get the fielname by of the attachment by accessng the data-attachment
+        //when the links are clicked send an AJAX request to the upload/flename of the server
+        //the  server should return thefile as an attachment
 
     }
 
     // Send request
     request.send();
 }
+
 
 function scroll_last(){
     var last_message = document.querySelector("#messages").lastElementChild;

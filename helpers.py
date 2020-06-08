@@ -15,16 +15,20 @@ class Channel:
     def serialize(self):
         messages = []
         for message in self.messages:
-            messages.append({"text" : message.__dict__['text'], "user": message.__dict__['user'], "time": message.__dict__['time']})
+            messages.append({"text" : message.__dict__['text'],
+                            "user": message.__dict__['user'], 
+                            "time": message.__dict__['time'], 
+                            "filename": message.__dict__['filename']})
         return messages
 
 
 class Message:
     counter = 0
-    def __init__(self, user, text):
+    def __init__(self, user, text, filename):
         self.text = text
         self.user = user
         self.time = f'{datetime.datetime.now().strftime("%X")}'
+        self.filename = filename
 
         self.id = Message.counter
         Message.counter += 1

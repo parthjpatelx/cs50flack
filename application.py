@@ -21,7 +21,7 @@ channels = [general]
 
 #add test messages to the general channel. 
 for i in range(98):
-    general.add_message(Message(user = 'test', text = f"message {i}"))
+    general.add_message(Message(user = 'test', text = f"message {i}", filename = None))
 
 # load page with channel list
 @app.route("/")
@@ -53,12 +53,13 @@ def message(data):
     username = data['username']
     room = data['channel']
     message = data['message']
+    filename = data['filename']
 
     for channel in channels: 
         if channel.name == room:
             if len(channel.messages) == 100:
                 channel.messages.pop(0)
-            channel.add_message(Message(user = username, text = message))
+            channel.add_message(Message(user = username, text = message, filename = filename))
             emit('messages', {'messages' : channel.serialize()}, room= room)
             break 
 
