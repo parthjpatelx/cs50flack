@@ -96,17 +96,10 @@ document.addEventListener('DOMContentLoaded', function(){
         //configure chat form 
         document.querySelector('#chat_form').onsubmit = () => {
             if (localStorage.getItem('channel')){
-                // if (document.querySelector('#message').value.length != 0){
-                //     const message = document.querySelector('#message').value; 
-                //     socket.emit('message', {"username": localStorage.getItem('username'), "channel" : localStorage.getItem('channel'), "message" : message});
-                //     document.querySelector('#message').value = '';
-                // }
-
-                //check if message was inputted or file was atached
                 var filename = null;
                 var message = null; 
 
-                if (document.querySelector('#file').value){
+                if (document.querySelector('#file').value.length != 0){
                     filename = document.querySelector('#file').value;
                     // note we should parse the path to get just the filename or it wil appear like this: // C:\fakepath\testfile.txt
                 }
@@ -123,27 +116,12 @@ document.addEventListener('DOMContentLoaded', function(){
                
                 document.querySelector('#message').value = '';
                 document.querySelector('#file').value = '';
-
-
-                // if a file was uploaded 
-                    //get the filename of the attachment that was uploaded
-                    //emit to message socket. 
-                    //socket.emit('message', {"username": localStorage.getItem('username'), "channel" : localStorage.getItem('channel'), "message" : None, 'attachment' filename});
-                    //clear the file that was uploaded
-
-                //better yet, automatically set the message and the filename to None
-                //if message exist or file was uploaded set the message and file variable to queryselector(message).value and filename respectivel
-                //emit a single socket request
-
-                //create a seperate function to configure attachmetn links. 
-
             }
-            else{
-                alert('error: You must be part of a channel to submit a message')
+            else {
+                alert('error: You must be part of a channel to submit a message');
             }
             return false; 
-        };
-
+        }  
     });
 
     // Enable button only if there is text in the input field
