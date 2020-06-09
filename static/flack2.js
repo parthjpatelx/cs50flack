@@ -96,34 +96,12 @@ document.addEventListener('DOMContentLoaded', function(){
         //configure chat form 
         document.querySelector('#chat_form').onsubmit = () => {
             if (localStorage.getItem('channel')){
-                var filename = 'no file selected';
+                var file = null;
                 var message = null; 
 
                 if (document.querySelector('#file').value.length != 0){
-                    fileInput = document.querySelector('#file');
-                    file = fileInput.files[0];
-
+                    file = document.querySelector('#file').files[0]
                     document.querySelector('#file').value = '';
-
-                    // send AJAX request to ensure filename is not secure/get filename 
-                    const request = new XMLHttpRequest();
-                    request.open('POST', '/upload');
-
-                    request.onload = function(){
-                        const data = JSON.parse(request.responseText);
-                        if (data.success){
-                            filename = data.filename;
-                            filename = 'Server response: File saved'
-                        }
-                        else{
-                            filename = 'Server response: unable to save file'
-                        }
-                    }
-
-                    const data = new FormData();
-                    data.append('file', file);
-                    request.send(data);
-
                 }
 
                 if (document.querySelector('#message').value.length != 0){
@@ -136,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function(){
                             {"username": localStorage.getItem('username'),
                             "channel" : localStorage.getItem('channel'),
                             "message" : message, 
-                            'filename' : filename});
+                            'file' : file});
             }
             else {
                 alert('error: You must be part of a channel to submit a message');
