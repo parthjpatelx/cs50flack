@@ -55,6 +55,9 @@ def message(data):
     message = data['message']
     filename = data['filename']
 
+    if not room:
+        return('error: You must be part of a room to send a message')
+
     for channel in channels: 
         if channel.name == room:
             if len(channel.messages) == 100:
@@ -84,9 +87,10 @@ def upload():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',filename=filename))
+            return jsonify({'success': True, 'filename': filename})
+            # return redirect(url_for('uploaded_file',filename=filename))
         else:
-            return ('please select a valid file type')
+            return jsonify({'success': False})
 
 @app.route('/upload/<filename>')
 def uploaded_file(filename):

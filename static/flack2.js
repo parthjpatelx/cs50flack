@@ -100,11 +100,33 @@ document.addEventListener('DOMContentLoaded', function(){
                 var message = null; 
 
                 if (document.querySelector('#file').value.length != 0){
-                    filename = document.querySelector('#file').value;
-                    // note we should parse the path to get just the filename or it wil appear like this: // C:\fakepath\testfile.txt
+                    // fileInput = document.querySelector('#file');
+                    // file = fileInput.files[0];
+                    filename = 'hello'
+                    document.querySelector('#file').value = '';
+
+                    // send AJAX request to ensure filename is not secure/get filename 
+                    // const request = new XMLHttpRequest();
+                    // request.open('POST', '/upload');
+                    // const data = new FormData();
+                    // data.append('file', file);
+                    // request.send(data);
+
+                    // request.onload = function(){
+                    //     const data = JSON.parse(request.responseText);
+                    //     if (data.success){
+                    //         filename = data.filename;
+                    //         filename = 'hello'
+                    //     }
+                    //     else{
+                    //         filename = 'unable to upload file'
+                    //     }
+                    // }
                 }
+
                 if (document.querySelector('#message').value.length != 0){
-                    message = document.querySelector('#message').value
+                    message = document.querySelector('#message').value;
+                    document.querySelector('#message').value = '';
                 }
 
                 //send attachment name and message to websocket server
@@ -113,9 +135,6 @@ document.addEventListener('DOMContentLoaded', function(){
                             "channel" : localStorage.getItem('channel'),
                             "message" : message, 
                             'filename' : filename});
-               
-                document.querySelector('#message').value = '';
-                document.querySelector('#file').value = '';
             }
             else {
                 alert('error: You must be part of a channel to submit a message');
@@ -155,6 +174,15 @@ document.addEventListener('DOMContentLoaded', function(){
         const template = Handlebars.compile(document.querySelector('#messages_template').innerHTML); 
         const content = template({"messages" : data.messages });
         document.querySelector('#messages').innerHTML = content
+
+        document.querySelectorAll('.filename').forEach(link => {
+            link.onclick = function(){
+                filename = link.dataset.filename;
+                const request = new XMLHttpRequest();
+                request.open('GET', `/upload/${filename}`);   
+            }
+        });
+
         scroll_last();
     });
 
