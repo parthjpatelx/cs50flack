@@ -81,14 +81,16 @@ def upload():
     if request.method == 'GET':
         return render_template('upload.html')
     if request.method == 'POST':
-        #access file to file dictionary of the request object
-        file = request.files['file']
-        #save file locally
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return jsonify({'success': True, 'filename': filename})
-            # return redirect(url_for('uploaded_file',filename=filename))
+        if request.files.get("file"):
+            file = request.files['file']
+            #save file locally
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                return jsonify({'success': True, 'filename': filename})
+                # return redirect(url_for('uploaded_file',filename=filename))
+            else:
+                return jsonify({'success': False})
         else:
             return jsonify({'success': False})
 
