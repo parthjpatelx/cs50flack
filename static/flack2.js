@@ -97,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function(){
         document.querySelector('#chat_form').onsubmit = () => {
             if (localStorage.getItem('channel')){
 
-                if (document.querySelector('#file').value.length != 0){
                     file = document.querySelector('#file').files[0];
                     message = document.querySelector('#message').value;
 
@@ -123,8 +122,8 @@ document.addEventListener('DOMContentLoaded', function(){
                             socket.emit('message', 
                                 {"username": localStorage.getItem('username'),
                                 "channel" : localStorage.getItem('channel'),
-                                "message" : 'request error', 
-                                'file' : 'request error'});
+                                "message" : message, 
+                                'file' : null});
                         }
                     }
     
@@ -132,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function(){
                     data.append('file', file);
                     request.send(data);
 
-                }
+                
             }
             return false; 
         }  
