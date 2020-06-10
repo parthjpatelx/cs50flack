@@ -53,7 +53,7 @@ def message(data):
     username = data['username']
     room = data['channel']
     message = data['message']
-    filename = data['filename']
+    filename = data['file']
 
     if not room:
         return('error: You must be part of a room to send a message')

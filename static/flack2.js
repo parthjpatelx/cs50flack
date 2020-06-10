@@ -96,28 +96,43 @@ document.addEventListener('DOMContentLoaded', function(){
         //configure chat form 
         document.querySelector('#chat_form').onsubmit = () => {
             if (localStorage.getItem('channel')){
-                var file = null;
-                var message = null; 
 
                 if (document.querySelector('#file').value.length != 0){
-                    file = document.querySelector('#file').files[0]
-                    document.querySelector('#file').value = '';
-                }
-
-                if (document.querySelector('#message').value.length != 0){
+                    file = document.querySelector('#file').files[0];
                     message = document.querySelector('#message').value;
-                    document.querySelector('#message').value = '';
-                }
 
-                //send attachment name and message to websocket server
-                socket.emit('message', 
-                            {"username": localStorage.getItem('username'),
-                            "channel" : localStorage.getItem('channel'),
-                            "message" : message, 
-                            'file' : file});
-            }
-            else {
-                alert('error: You must be part of a channel to submit a message');
+                    document.querySelector('#message').value = '';
+                    document.querySelector('#file').value = '';
+
+
+                    // send AJAX request to ensure filename is not secure/get filename 
+                    const request = new XMLHttpRequest();
+                    request.open('POST', '/upload');
+
+                    request.onload = function(){
+                        const data = JSON.parse(request.responseText);
+                        if (data.success){
+                            filename = data.filename;
+                            socket.emit('message', 
+                                        {"username": localStorage.getItem('username'),
+                                        "channel" : localStorage.getItem('channel'),
+                                        "message" : message, 
+                                        'file' : filename});
+                        }
+                        else{
+                            socket.emit('message', 
+                                {"username": localStorage.getItem('username'),
+                                "channel" : localStorage.getItem('channel'),
+                                "message" : 'request error', 
+                                'file' : 'request error'});
+                        }
+                    }
+    
+                    const data = new FormData();
+                    data.append('file', file);
+                    request.send(data);
+
+                }
             }
             return false; 
         }  
