@@ -112,19 +112,16 @@ document.addEventListener('DOMContentLoaded', function(){
                         const data = JSON.parse(request.responseText);
                         if (data.success){
                             filename = data.filename;
-                            socket.emit('message', 
-                                        {"username": localStorage.getItem('username'),
-                                        "channel" : localStorage.getItem('channel'),
-                                        "message" : message, 
-                                        'file' : filename});
                         }
                         else{
-                            socket.emit('message', 
-                                {"username": localStorage.getItem('username'),
-                                "channel" : localStorage.getItem('channel'),
-                                "message" : message, 
-                                'file' : null});
+                            filename = null; 
                         }
+
+                        socket.emit('message', 
+                                    {"username": localStorage.getItem('username'),
+                                    "channel" : localStorage.getItem('channel'),
+                                    "message" : message, 
+                                    'file' : filename});
                     }
     
                     const data = new FormData();
