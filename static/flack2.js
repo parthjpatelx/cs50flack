@@ -165,15 +165,6 @@ document.addEventListener('DOMContentLoaded', function(){
         const template = Handlebars.compile(document.querySelector('#messages_template').innerHTML); 
         const content = template({"messages" : data.messages });
         document.querySelector('#messages').innerHTML = content
-
-        // document.querySelectorAll('.filename').forEach(link => {
-        //     link.onclick = function(){
-        //         filename = link.dataset.filename;
-        //         const request = new XMLHttpRequest();
-        //         request.open('GET', `/upload/${filename}`);   
-        //     }
-        // });
-
         scroll_last();
     });
 
@@ -196,20 +187,7 @@ function get_messages(channel){
             document.querySelector('#messages').innerHTML = 'no messages to display'
         }
 
-        // document.querySelectorAll('.filename').forEach(link => {
-        //     link.onclick = function(){
-        //         filename = link.dataset.filename;
-        //         const request = new XMLHttpRequest();
-        //         request.open('GET', `/upload/${filename}`);   
-        //     }
-        // });
-
         scroll_last();
-        // after all messages are loaded configure the links of each element of class attachment
-        //get the fielname by of the attachment by accessng the data-attachment
-        //when the links are clicked send an AJAX request to the upload/flename of the server
-        //the  server should return thefile as an attachment
-
     }
 
     // Send request
