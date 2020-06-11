@@ -166,13 +166,13 @@ document.addEventListener('DOMContentLoaded', function(){
         const content = template({"messages" : data.messages });
         document.querySelector('#messages').innerHTML = content
 
-        document.querySelectorAll('.filename').forEach(link => {
-            link.onclick = function(){
-                filename = link.dataset.filename;
-                const request = new XMLHttpRequest();
-                request.open('GET', `/upload/${filename}`);   
-            }
-        });
+        // document.querySelectorAll('.filename').forEach(link => {
+        //     link.onclick = function(){
+        //         filename = link.dataset.filename;
+        //         const request = new XMLHttpRequest();
+        //         request.open('GET', `/upload/${filename}`);   
+        //     }
+        // });
 
         scroll_last();
     });
@@ -196,13 +196,13 @@ function get_messages(channel){
             document.querySelector('#messages').innerHTML = 'no messages to display'
         }
 
-        document.querySelectorAll('.filename').forEach(link => {
-            link.onclick = function(){
-                filename = link.dataset.filename;
-                const request = new XMLHttpRequest();
-                request.open('GET', `/upload/${filename}`);   
-            }
-        });
+        // document.querySelectorAll('.filename').forEach(link => {
+        //     link.onclick = function(){
+        //         filename = link.dataset.filename;
+        //         const request = new XMLHttpRequest();
+        //         request.open('GET', `/upload/${filename}`);   
+        //     }
+        // });
 
         scroll_last();
         // after all messages are loaded configure the links of each element of class attachment
